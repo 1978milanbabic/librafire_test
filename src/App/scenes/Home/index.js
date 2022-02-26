@@ -1,14 +1,14 @@
-
+import { Link } from 'react-router-dom'
 
 // styles
 import './assets/Home.scss'
 
-const Home = props => {
-  return (
-    <div className='Home'>
-      <p>this is home</p>
+const Home = () => (
+  <main className='Home'>
+    <div className='centered'>
+      <p>No specifications for Home - please navigate to <Link to='/posts'>posts</Link> page.</p>
     </div>
-  )
-}
+  </main>
+)
 
 export default Home

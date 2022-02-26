@@ -42,7 +42,7 @@ You can also use production files to serve from a local server.
 ```
 $ npm run build
 ```
-Files will be located in `build` folder.
+Files will be located in `build/` folder.
 
 ## Environment variables (parcel local server)
 
@@ -54,5 +54,5 @@ Navigate your browser to - http://localhost:1234
 
 [standard-badge]: https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=popout
 [standard-url]: https://standardjs.com
-[node-url]: (https://nodejs.org/)
+[node-url]: https://nodejs.org/
 [react-url]: https://reactjs.org/blog/2020/10/20/react-v17.html
