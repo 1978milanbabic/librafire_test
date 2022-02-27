@@ -10,7 +10,12 @@ const Items = ({ currentItems }) => (
         <div className='Item-inner'>
           <h2>{item.title}</h2>
           <p>{item.body}</p>
-          <Link to={`/posts/${item.id}`}>Read More <span>&#8594;</span></Link>
+          <Link to={{
+            pathname: `/posts/${item.id}`,
+            state: { articlesIdList: [1, 2, 3] }
+          }}>
+            Read More <span>&#8594;</span>
+          </Link>
         </div>
       </article>
     ))}
