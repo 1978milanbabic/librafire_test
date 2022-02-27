@@ -26,7 +26,7 @@ const Post = props => {
   let { id: postId } = useParams()
 
   // posts list of ids
-  let postIds = useContext(PostsContext)
+  let { postsIDs, setPostsIDs } = useContext(PostsContext)
 
   const [getArticle, { called, loading, data }] = useLazyQuery(GET_ARTICLE, {
     fetchPolicy: 'network-only',
@@ -53,8 +53,8 @@ const Post = props => {
 
   return (
     <article className='Post'>
-      <header>{postIds.postsIDs}</header>
-      <p onClick={() => postIds.setPostsIDs('clicked!')}>this is Post</p>
+      <header>{postsIDs}</header>
+      <p onClick={() => setPostsIDs('clicked!')}>this is Post</p>
     </article>
   )
 }

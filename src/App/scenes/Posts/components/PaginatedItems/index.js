@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Pagination from '@material-ui/lab/Pagination'
 import { gql, useLazyQuery } from '@apollo/client'
+import { PostsContext } from '../../../..'
 
 // styles
 import './assets/PaginatedItems.scss'
@@ -27,6 +28,17 @@ const GET_POSTS = gql`
       }
     }
   }
+`
+const GET_POSTS_IDS = gql`
+query GetPostsIDs (
+  $options: PageQueryOptions
+) {
+  posts(options: $options) {
+    data {
+      id
+    }
+  }
+}
 `
 const GET_USERS = gql`
   query GetUsers {
@@ -55,6 +67,20 @@ const GET_AUTHORS_POSTS = gql`
     }
   }
 `
+const GET_AUTHORS_POSTS_IDS = gql`
+query GetAuthPosts (
+  $id: ID!
+) {
+  user (id: $id) {
+    id
+    posts {
+      data {
+        id
+      }
+    }
+  }
+}
+`
 // prevent overquerying when search
 let responseSearchTimeout
 
@@ -70,6 +96,9 @@ const PaginatedItems = props => {
   const [searchTitle, setSearchTitle] = useState()
   const [authors, setAuthors] = useState()
   const [author, setAuthor] = useState('')
+
+  // edit posts list context
+  let { setPostsIDs } = useContext(PostsContext)
 
   // define get posts lazyQuery
   const [getPosts, { called, loading, data }] = useLazyQuery(GET_POSTS, {
@@ -102,6 +131,19 @@ const PaginatedItems = props => {
       } else {
         // response incorrect
         throw new Error('graphQL server bad response!')
+      }
+    },
+    onError: err => {
+      console.log(err)
+      // **** here we can redirect to some graphql error page!!!
+    }
+  })
+  // define get IDs from filter/non filter posts
+  const [getPostsIDs] = useLazyQuery(GET_POSTS_IDS, {
+    fetchPolicy: 'network-only',
+    onCompleted: resp => {
+      if (resp && resp.posts && resp.posts.data && resp.posts.data.length > 0) {
+        setPostsIDs(resp.posts.data.map(entry => entry.id))
       }
     },
     onError: err => {
@@ -147,6 +189,19 @@ const PaginatedItems = props => {
       // **** here we can redirect to some graphql error page!!!
     }
   })
+  // define get IDs from author filter posts
+  const [getAuthorPostsIDs] = useLazyQuery(GET_AUTHORS_POSTS_IDS, {
+    fetchPolicy: 'network-only',
+    onCompleted: resp => {
+      if (resp && resp.user && resp.user.posts && resp.user.posts.data && resp.user.posts.data.length > 0) {
+        setPostsIDs(resp.user.posts.data.map(entry => entry.id))
+      }
+    },
+    onError: err => {
+      console.log(err)
+      // **** here we can redirect to some graphql error page!!!
+    }
+  })
 
   // Fetch items graphQL
   useEffect(() => {
@@ -158,6 +213,12 @@ const PaginatedItems = props => {
           limit: itemsPerPage
         }
       }
+      let idsOptions = {
+        paginate: {
+          page: 1,
+          limit: 10000 * 10000
+        }
+      }
       if (searchTitle) {
         options.operators = [
           {
@@ -166,11 +227,14 @@ const PaginatedItems = props => {
             value: searchTitle
           }
         ]
+        idsOptions.operators = options.operators
       }
       getPosts({ variables: { options }})
+      getPostsIDs({ variables: { options: idsOptions }})
     } else {
       // fetch by author
       getAuthorPosts({ variables: { id: parseInt(author) } })
+      getAuthorPostsIDs({ variables: { id: parseInt(author) } })
     }
   }, [page, searchTitle, author])
 
