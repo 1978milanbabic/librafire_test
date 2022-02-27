@@ -1,4 +1,5 @@
 // **** this is global css ****
+@import './variables';
 
 html, body {
   font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -12,6 +13,6 @@ html, body {
 
 .inner-container {
   width: 95%;
-  max-width: 1460px;
+  max-width: $inner_container_max_size;
   margin: 0 auto;
 }
