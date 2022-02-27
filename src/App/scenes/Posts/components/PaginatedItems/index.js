@@ -5,6 +5,9 @@ import { gql, useLazyQuery } from '@apollo/client'
 // styles
 import './assets/PaginatedItems.scss'
 
+// components
+import Items from '../Items'
+
 const GET_ALL_POSTS = gql`
   query GetAllPosts (
     $options: PageQueryOptions
@@ -14,6 +17,10 @@ const GET_ALL_POSTS = gql`
         id
         title
         body
+        user {
+          id
+          name
+        }
       }
       meta {
         totalCount
@@ -22,21 +29,7 @@ const GET_ALL_POSTS = gql`
   }
 `
 
-const items = []
-for (let kk = 1; kk < 200; kk++) { items.push({name:kk}) }
-
-// items display
-const Items = ({ currentItems }) => (
-  <>
-    {currentItems && currentItems.map((item, i) => (
-      <div key={i}>
-        <h3>Item #{item.name}</h3>
-      </div>
-    ))}
-  </>
-)
-
-const PaginatedItems = () => {
+const PaginatedItems = props => {
   // layout constant
   const itemsPerPage = 14
 
@@ -45,10 +38,31 @@ const PaginatedItems = () => {
   const [count, setCount] = useState(10)
   const [currentItems, setCurrentItems] = useState(null)
 
-  const [getAllPosts, { called, loading, data }] = useLazyQuery(GET_ALL_POSTS)
+  // gql lazyQuery
+  const [getAllPosts, { called, loading, data }] = useLazyQuery(GET_ALL_POSTS, {
+    fetchPolicy: 'network-only',
+    onCompleted: resp => {
+      if (resp && resp.posts && resp.posts && resp.posts.meta) {
+        // set data
+        setCurrentItems(resp.posts.data)
+        // set number of posts
+        let nmb = resp.posts.meta.totalCount
+        setCount(Math.ceil(nmb / itemsPerPage))
+        // send number of post to parent component - to set header
+        props.setPostsFound(nmb)
+      } else {
+        // response incorrect
+        throw new Error('graphQL server bad response!')
+      }
+    },
+    onError: err => {
+      console.log(err)
+      // **** here we can redirect to some graphql error page!!!
+    }
+  })
 
+  // Fetch items graphQL on page set (also on initial page)
   useEffect(() => {
-    // Fetch items graphQL
     getAllPosts({ variables: {
       options: {
         paginate: {
@@ -56,25 +70,25 @@ const PaginatedItems = () => {
           limit: itemsPerPage
         }
       }
-    }}).then(data => {
-      console.log(data)
-    }).catch(err => console.log(err))
-
-    let pageNmb = page - 1
-    // *** test ***
-    // set count
-    setCount((items.length) / itemsPerPage)
-    // set items
-    let neededArr = items.slice(pageNmb * itemsPerPage, pageNmb * itemsPerPage + itemsPerPage)
-    setCurrentItems(neededArr)
+    }})
   }, [page])
 
+  // paginate/page change
   const handleChange = (event, value) => {
     setPage(value)
   }
+
   return (
     <>
-      <Items currentItems={currentItems} />
+      {called && loading && (
+        <p>Loading...</p>
+      )}
+      {!loading && data && (
+        <>
+
+          <Items currentItems={currentItems} />
+        </>
+      )}
       <Pagination count={count} page={page} onChange={handleChange} />
     </>
   )

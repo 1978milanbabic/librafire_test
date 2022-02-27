@@ -6,18 +6,18 @@ import PaginatedItems from './components/PaginatedItems'
 // styles
 import './assets/Posts.scss'
 
-
-// page component
 const Posts = () => {
   // states
-
+  const [nmbOfPosts, setNmbOfPosts] = useState()
 
   return (
     <main className='Posts'>
 
-      <p>this is Posts</p>
+      <p>Posts found: {nmbOfPosts || ''}</p>
+      {/* search inputs */}
+
       {/* show paginated Items and pagination nav */}
-      <PaginatedItems />
+      <PaginatedItems setPostsFound={val => setNmbOfPosts(val)} />
     </main>
   )
 
