@@ -244,18 +244,25 @@ const PaginatedItems = props => {
       </section>
       {/* display items */}
       {((called && loading) || (calledAuth && loadingAuth)) && (
-        <p>Loading...</p>
+        <div className='loading'>
+          <p>Loading...</p>
+        </div>
       )}
       {((!loading && !loadingAuth) && (data || dataAuth)) && (
         <Items currentItems={currentItems} />
       )}
-      {((data && data.posts && data.posts.data && data.posts.data.length === 0) ||
-        (dataAuth && dataAuth.user && dataAuth.user.posts && dataAuth.user.posts.data && dataAuth.user.posts.data.length === 0)) && (
-        <p>no results!</p>
+      { (!loading && !loadingAuth) &&
+        (((data && data.posts && data.posts.data && data.posts.data.length === 0) ||
+        (dataAuth && dataAuth.user && dataAuth.user.posts && dataAuth.user.posts.data && dataAuth.user.posts.data.length === 0))) && (
+        <div className='no-results'>
+          <p>No results!</p>
+        </div>
       )}
       {/* display paginate bar */}
       {count && count > 1 && (
-        <Pagination count={count} page={page} onChange={handleChange} />
+        <div className='pagination-container'>
+          <Pagination count={count} page={page} onChange={handleChange} />
+        </div>
       )}
     </div>
   )
