@@ -12,12 +12,17 @@ const Posts = () => {
 
   return (
     <main className='Posts'>
-
-      <p>Posts found: {nmbOfPosts || ''}</p>
-      {/* search inputs */}
-
+      <header>
+        <div className='inner-container'>
+          <p>Posts found: {nmbOfPosts || '0'}</p>
+        </div>
+      </header>
       {/* show paginated Items and pagination nav */}
-      <PaginatedItems setPostsFound={val => setNmbOfPosts(val)} />
+      <section className='paginated-items'>
+        <div className='inner-container'>
+          <PaginatedItems setPostsFound={val => setNmbOfPosts(val)} />
+        </div>
+      </section>
     </main>
   )
 

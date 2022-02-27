@@ -220,24 +220,28 @@ const PaginatedItems = props => {
   }
 
   return (
-    <>
+    <div className='PaginatedItems'>
       {/* search inputs */}
-      <div className='search-area'>
-        <input
-          type='search'
-          placeholder='Search'
-          value={searchTitleInput || ''}
-          onChange={handleSearchByTitle}
-        />
-        <select value={author} onChange={handleChangeAuthor}>
-          <option disabled value=''>Filter by author name</option>
-          {authors && authors.map(author => (
-            <option key={author.id} value={author.id}>
-              {author.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <section className='search-area'>
+        <div className='input-area'>
+          <input
+            type='search'
+            placeholder='Search'
+            value={searchTitleInput || ''}
+            onChange={handleSearchByTitle}
+          />
+        </div>
+        <div className='input-area'>
+          <select value={author} onChange={handleChangeAuthor}>
+            <option disabled value=''>Filter by author name</option>
+            {authors && authors.map(author => (
+              <option key={author.id} value={author.id}>
+                {author.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </section>
       {/* display items */}
       {((called && loading) || (calledAuth && loadingAuth)) && (
         <p>Loading...</p>
@@ -253,7 +257,7 @@ const PaginatedItems = props => {
       {count && count > 1 && (
         <Pagination count={count} page={page} onChange={handleChange} />
       )}
-    </>
+    </div>
   )
 }
 
