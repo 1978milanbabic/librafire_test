@@ -112,3 +112,16 @@
     }
   }
 }
+
+@media screen and (max-width: $mobilesize) {
+  .PaginatedItems {
+    section.search-area {
+      display: block;
+
+      .input-area {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}

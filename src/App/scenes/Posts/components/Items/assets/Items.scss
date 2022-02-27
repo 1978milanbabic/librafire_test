@@ -69,3 +69,26 @@
   }
 
 }
+
+@media screen and (max-width: $tabletsize) {
+  .Items {
+    article.Item {
+      width: calc((100% / 2) - 20px);
+
+      &:first-of-type {
+        flex-basis: 100%;
+
+        h2 {
+          font-size: 25px;
+          line-height: 30px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $mobilesize) {
+  .Items article.Item {
+    width: 100%;
+  }
+}
