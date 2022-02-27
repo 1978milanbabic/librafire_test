@@ -1,14 +1,26 @@
+import { useState, useEffect } from 'react'
 
+// components
+import PaginatedItems from './components/PaginatedItems'
 
 // styles
 import './assets/Posts.scss'
 
-const Posts = props => {
+
+// page component
+const Posts = () => {
+  // states
+
+
   return (
-    <div className='Posts'>
+    <main className='Posts'>
+
       <p>this is Posts</p>
-    </div>
+      {/* show paginated Items and pagination nav */}
+      <PaginatedItems />
+    </main>
   )
+
 }
 
 export default Posts

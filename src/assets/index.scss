@@ -1,3 +1,5 @@
+// **** this is global css ****
+
 html, body {
   font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: 0;
@@ -6,4 +8,10 @@ html, body {
 
 * {
   box-sizing: border-box;
+}
+
+.inner-container {
+  width: 95%;
+  max-width: 1460px;
+  margin: 0 auto;
 }
