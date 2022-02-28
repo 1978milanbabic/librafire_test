@@ -48,11 +48,6 @@ const App = () =>{
     getIDs()
   }, [])
 
-  // ****************** test ******************
-  useEffect(() => {
-    console.log('from main -> post IDs changed: ', postsIDs)
-  }, [postsIDs])
-
   return (
     <PostsContext.Provider value={{postsIDs, setPostsIDs}}>
       <div className='App'>
