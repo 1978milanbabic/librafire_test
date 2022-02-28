@@ -1,7 +1,7 @@
 {
   "name": "libra_fire_test_task",
   "author": "Milan Babic",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "ESM | node v17^ | react v17^ | parcel v2^ | FE app",
   "dependencies": {
     "@apollo/client": "^3.5.9",
@@ -13,9 +13,7 @@
   },
   "scripts": {
     "start": "parcel public/index.html",
-    "build": "parcel build public/index.html --dist-dir build",
-    "test": "jest --coverage",
-    "test-watch": "jest --watch"
+    "build": "parcel build public/index.html --dist-dir build"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.3.2",
