@@ -93,10 +93,12 @@ const Post = () => {
   return (
     <article className='Post'>
       {called && loading && (
-        <p>loading</p>
+        <div className='loading'>
+          <p>Loading...</p>
+        </div>
       )}
       {data && article && (
-        <>
+        <div className='inner-cont'>
           <div className='article'>
             <header>
               <h1>{article.title}</h1>
@@ -104,29 +106,35 @@ const Post = () => {
             <p>{article.body}</p>
           </div>
           <nav>
-            <Link
-              className={(prevID !== null) ? '' : 'disabled'}
-              to={`${(prevID === null) ? '/' : `/posts/${prevID}`}`}
-              onClick={handlePreventDisabledLink}
-            >
-                go previous
-            </Link>
-            <Link
-              className={(nextID !== null ? '' : 'disabled')}
-              to={`${(nextID === null) ? '/' : `/posts/${nextID}`}`}
-              onClick={handlePreventDisabledLink}
-            >
-              go next
-            </Link>
+            <div className='link-holder'>
+              <Link
+                className={(prevID !== null) ? '' : 'disabled'}
+                to={`${(prevID === null) ? '/' : `/posts/${prevID}`}`}
+                onClick={handlePreventDisabledLink}
+              >
+                &#8592; Previous article
+              </Link>
+            </div>
+            <div className='link-holder'>
+              <Link
+                className={(nextID !== null ? '' : 'disabled')}
+                to={`${(nextID === null) ? '/' : `/posts/${nextID}`}`}
+                onClick={handlePreventDisabledLink}
+              >
+                Next article &#8594;
+              </Link>
+            </div>
           </nav>
           <div className='author'>
             <div className='author-name'>
-              <p>Author Name</p>
-              <p>{article.user.name}</p>
+              <div className='author-name-inner'>
+                <p className='noun'>Author Name</p>
+                <p className='val'>{article.user.name}</p>
+              </div>
             </div>
             <div className='author-address'>
-              <p>Address</p>
-              <p>{`${article.user.address.city}, ${article.user.address.zipcode}, ${article.user.address.street}`}</p>
+              <p className='noun'>Address</p>
+              <p className='val'>{`${article.user.address.city}, ${article.user.address.zipcode}, ${article.user.address.street}`}</p>
             </div>
           </div>
           <h2>Comments</h2>
@@ -139,7 +147,7 @@ const Post = () => {
                 <p>{comment.body}</p>
               </div>
           ))}
-        </>
+        </div>
       )}
     </article>
   )

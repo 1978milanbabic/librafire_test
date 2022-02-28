@@ -11,8 +11,7 @@ const Items = ({ currentItems }) => (
           <h2>{item.title}</h2>
           <p>{item.body}</p>
           <Link to={{
-            pathname: `/posts/${item.id}`,
-            state: { articlesIdList: [1, 2, 3] }
+            pathname: `/posts/${item.id}`
           }}>
             Read More <span>&#8594;</span>
           </Link>

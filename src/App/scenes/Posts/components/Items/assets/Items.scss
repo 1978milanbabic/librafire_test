@@ -55,6 +55,10 @@
       font-size: 16px;
       line-height: 25px;
       color: $graytext;
+
+      &::first-letter {
+        text-transform: capitalize;
+      }
     }
 
     &:first-of-type {
