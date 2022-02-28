@@ -227,6 +227,7 @@ const PaginatedItems = props => {
             value: searchTitle
           }
         ]
+        options.paginate = { page: 1 }
         idsOptions.operators = options.operators
       }
       getPosts({ variables: { options }})
